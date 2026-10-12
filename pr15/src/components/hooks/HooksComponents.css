@@ -1,0 +1,10 @@
+.hook-box {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  background: white;
+}
+.hook-counter { font-size: 2rem; font-weight: bold; }
+.theme-light { background: #fff; color: #333; padding: 1rem; border-radius: 8px; }
+.theme-dark { background: #333; color: #fff; padding: 1rem; border-radius: 8px; }
