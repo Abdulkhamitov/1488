@@ -225,4 +225,156 @@ function setupCustomEvents() {
 
 function loadImageWithEvents() {
     const container = document.getElementById('image-container');
-    const output = document.getElementById('loading
+    const output = document.getElementById('loading-output');
+    if (!container) return;
+
+    container.innerHTML = '';
+    container.className = 'image-container loading';
+    output.textContent = 'Загрузка изображения...';
+
+    const img = document.createElement('img');
+    img.src = 'https://picsum.photos/300/200?' + Date.now();
+    img.alt = 'Загруженное изображение';
+
+    img.addEventListener('load', () => {
+        container.className = 'image-container success';
+        output.textContent = 'Изображение успешно загружено!';
+    });
+
+    img.addEventListener('error', () => {
+        container.className = 'image-container error';
+        output.textContent = 'Ошибка загрузки изображения!';
+    });
+
+    container.appendChild(img);
+}
+
+function simulateLoadError() {
+    const container = document.getElementById('image-container');
+    const output = document.getElementById('loading-output');
+    if (!container) return;
+
+    container.innerHTML = '';
+    container.className = 'image-container loading';
+    output.textContent = 'Попытка загрузить несуществующее изображение...';
+
+    const img = document.createElement('img');
+    img.src = 'https://this-domain-does-not-exist-12345.com/image.jpg';
+    img.alt = 'Ошибочное изображение';
+
+    img.addEventListener('error', () => {
+        container.className = 'image-container error';
+        output.textContent = 'Ошибка: не удалось загрузить изображение!';
+    });
+
+    container.appendChild(img);
+}
+
+function setupLoadingEvents() {
+    const loadBtn = document.getElementById('load-image');
+    const errorBtn = document.getElementById('load-error');
+
+    if (loadBtn) loadBtn.addEventListener('click', loadImageWithEvents);
+    if (errorBtn) errorBtn.addEventListener('click', simulateLoadError);
+}
+
+// ==========================================
+// ЗАДАНИЕ 7: Таймеры и асинхронные события
+// ==========================================
+
+let timerInterval = null;
+let timerValue = 0;
+
+function startTimer() {
+    if (timerInterval) return; // Уже запущен
+
+    const output = document.getElementById('timer-output');
+
+    timerInterval = setInterval(() => {
+        timerValue++;
+        output.textContent = `Таймер: ${timerValue}`;
+    }, 1000);
+}
+
+function stopTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    timerValue = 0;
+    const output = document.getElementById('timer-output');
+    if (output) output.textContent = 'Таймер: 0';
+}
+
+function createDebounce(func, delay) {
+    let timeoutId;
+    return function(...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+function createThrottle(func, interval) {
+    let lastTime = 0;
+    return function(...args) {
+        const now = Date.now();
+        if (now - lastTime >= interval) {
+            lastTime = now;
+            func.apply(this, args);
+        }
+    };
+}
+
+function testDebounce() {
+    const output = document.getElementById('async-output');
+    const fn = createDebounce(() => {
+        output.textContent = `Debounce выполнен: ${new Date().toLocaleTimeString()}`;
+    }, 500);
+
+    output.textContent = 'Быстрые клики... Debounce сработает через 0.5с после последнего клика';
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => fn(), i * 50);
+    }
+}
+
+function testThrottle() {
+    const output = document.getElementById('async-output');
+    const fn = createThrottle(() => {
+        output.textContent = `Throttle выполнен: ${new Date().toLocaleTimeString()}`;
+    }, 500);
+
+    output.textContent = 'Быстрые клики... Throttle выполнится не чаще раза в 0.5с';
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => fn(), i * 50);
+    }
+}
+
+function setupTimerEvents() {
+    const startBtn = document.getElementById('start-timer');
+    const stopBtn = document.getElementById('stop-timer');
+    const debounceBtn = document.getElementById('debounce-btn');
+    const throttleBtn = document.getElementById('throttle-btn');
+
+    if (startBtn) startBtn.addEventListener('click', startTimer);
+    if (stopBtn) stopBtn.addEventListener('click', stopTimer);
+    if (debounceBtn) debounceBtn.addEventListener('click', testDebounce);
+    if (throttleBtn) throttleBtn.addEventListener('click', testThrottle);
+}
+
+// ==========================================
+// ИНИЦИАЛИЗАЦИЯ
+// ==========================================
+
+function initializeEventsApp() {
+    setupBasicEvents();
+    setupKeyboardEvents();
+    setupDelegationEvents();
+    setupPreventionEvents();
+    setupCustomEvents();
+    setupLoadingEvents();
+    setupTimerEvents();
+
+    console.log('Все обработчики событий инициализированы!');
+}
+
+document.addEventListener('DOMContentLoaded', initializeEventsApp);
