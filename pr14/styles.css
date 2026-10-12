@@ -1,0 +1,54 @@
+/* Добавьте к стилям из ПР13 */
+.data-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    background: white;
+}
+
+.user-card, .post-card {
+    background: white;
+    border: 1px solid #ecf0f1;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.user-card h4, .post-card h4 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.user-card p, .post-card p {
+    color: #7f8c8d;
+    margin: 0.25rem 0;
+}
+
+.json-view {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 1rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.header-list {
+    list-style: none;
+    padding: 0;
+}
+
+.header-list li {
+    padding: 0.25rem 0;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.header-list li:last-child {
+    border-bottom: none;
+}
